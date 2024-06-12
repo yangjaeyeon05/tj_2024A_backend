@@ -207,6 +207,7 @@ public class Step3 {    // class s
         */
 
         // [11]
+        /*
         char star = '*';
         char space = ' ';
         int a = 1, z = 9;
@@ -225,6 +226,34 @@ public class Step3 {    // class s
             z--;
             System.out.println();
         }
+        */
+        // [11]
+        System.out.print("[11]줄 수 : ");  // 안내문 출력
+
+        int iLine = scanner.nextInt();  // 키보드로부터 입력받은 값 반환해서 변수에 저장
+
+        String html = "";
+
+        int a = 1;
+        int z = 9;
+
+        for(int cLine = 1 ; cLine <= iLine ; cLine++){
+
+            for(int j = 1 ; j <= iLine ; j++){
+                if( a==j || z==j ){
+                    html += "*";
+                }else {
+                    html += " ";
+                }
+            }
+            a++;
+            z--;
+
+            // 줄마다 줄바꿈
+            html += "\n";
+        }
+        System.out.println(html);
+
 
     }   // main e
 }   // class e
