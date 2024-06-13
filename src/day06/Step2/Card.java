@@ -1,4 +1,4 @@
-package day06.step2;
+package day06.Step2;
 
 public class Card {
     // 멤버 변수/필드

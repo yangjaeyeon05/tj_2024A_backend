@@ -114,3 +114,17 @@ p.127
 
         Phone 호동핸드폰;
             호동핸드폰.name = "갤럭시24";   // 인스턴스가 없으므로 . 할수 없다.
+
+--------------------------------------
+JS 함수
+    function add( num1 , num2 ){
+        let result;
+        result = num1 + num2;
+        return result;
+    }
+JAVA
+    int add( int num1 , int num2 ){
+            int result;
+            result = num1 + num2;
+            return result;
+    }

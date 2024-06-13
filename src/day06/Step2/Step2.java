@@ -1,8 +1,7 @@
-package day06.step2;
+package day06.Step2;
 
-public class 실습 {
+public class Step2 {
     public static void main(String[] args) {
-
         Card c1 = new Card();
 
         c1.name = "현대카드";
@@ -28,6 +27,5 @@ public class 실습 {
         System.out.println(c2.name+"의 카드 높이는 "+c2.height+"mm 입니다.");
 
         c2.결제();
-
     }
 }
