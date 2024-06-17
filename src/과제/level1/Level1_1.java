@@ -9,6 +9,25 @@ public class Level1_1 {     // class s
         2. println() 메소드 사용
         */
 
+        boolean b1 = true;
+        byte by1 = 100;
+        char c1 = 'A';
+        short s1 = 30000;
+        int i1 = 2000000000;
+        long l1 = 40000000000L;
+        float f1 = 3.1231232F;
+        double d1 = 3.123123123;
+
+        System.out.println(">> Level1_1 answer >>");
+        System.out.println();
+        System.out.println("b1 = " + b1);
+        System.out.println("by1 = " + by1);
+        System.out.println("c1 = " + c1);
+        System.out.println("s1 = " + s1);
+        System.out.println("i1 = " + i1);
+        System.out.println("l1 = " + l1);
+        System.out.println("f1 = " + f1);
+        System.out.println("d1 = " + d1);
 
     }   // main e
 }   // class e

@@ -23,7 +23,7 @@ public class 과제2 {
                         soccerTeam[i] = new 축구선수();
                         System.out.println(soccerTeam[i]);
 
-                        int randomVal = (int)(Math.random() * 10);
+                        int randomVal = (int)(Math.random() * 101); // 0 ~ 99까지 랜덤
                         System.out.println("고유식별번호 : "+randomVal);
 
                         System.out.print("이름 : ");
