@@ -1,5 +1,7 @@
 package day03; // 현재 클래스 파일의 위치한 패키/폴더 명
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Step1 { // class s
@@ -36,6 +38,7 @@ public class Step1 { // class s
                 * char c1 = scan.next().charAt(0);
          */
         Scanner scan  = new Scanner( System.in );
+
 
         // 1.
         System.out.print(" .next() 문자열 : ");

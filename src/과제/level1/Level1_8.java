@@ -1,5 +1,7 @@
 package 과제.level1;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Level1_8 {
@@ -17,20 +19,90 @@ public class Level1_8 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        Date today = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String header = "\n============방문록===============\n번호\t 작성자 \t 방문록\n";
         String boardlist = "";
         String footer = "================================\n";
         String output = "";
 
-
         /* 문제풀이 위치 */
+
+        System.out.println(">> Level1_8 answer >>");
+        System.out.println(">> answer time : "+dateFormat.format(today));
+        System.out.println();
+
         System.out.print("[1]작성자 : ");
         String 작성자1 = scanner.next();
-        scanner.next();
+
+        scanner.nextLine(); // 의미없는 스캐너
+
         System.out.print("[1]방문록 : ");
         String 내용1 = scanner.nextLine();
+
+        boardlist = 1 +  작성자1 + 내용1 + "\n";
+
         System.out.println(header);
+        System.out.println(boardlist);
+        System.out.print(footer);
+
+        System.out.print("[2]작성자 : ");
+        String 작성자2 = scanner.next();
+
+        scanner.nextLine(); // 의미없는 스캐너
+
+        System.out.print("[2]방문록 : ");
+        String 내용2 = scanner.nextLine();
+
+        boardlist += 2 +  작성자2 + 내용2 + "\n";
+
+        System.out.println(header);
+        System.out.println(boardlist);
+        System.out.print(footer);
+
+        System.out.print("[3]작성자 : ");
+        String 작성자3 = scanner.next();
+
+        scanner.nextLine(); // 의미없는 스캐너
+
+        System.out.print("[3]방문록 : ");
+        String 내용3 = scanner.nextLine();
+
+        boardlist += 3 +  작성자3 + 내용3 + "\n";
+
+        System.out.println(header);
+        System.out.println(boardlist);
+        System.out.print(footer);
+
+        System.out.print("[4]작성자 : ");
+        String 작성자4 = scanner.next();
+
+        scanner.nextLine(); // 의미없는 스캐너
+
+        System.out.print("[4]방문록 : ");
+        String 내용4 = scanner.nextLine();
+
+        boardlist += 4 +  작성자4 + 내용4 + "\n";
+
+        System.out.println(header);
+        System.out.println(boardlist);
+        System.out.print(footer);
+
+        System.out.print("[5]작성자 : ");
+        String 작성자5 = scanner.next();
+
+        scanner.nextLine(); // 의미없는 스캐너
+
+        System.out.print("[2]방문록 : ");
+        String 내용5 = scanner.nextLine();
+
+        boardlist += 5 +  작성자5 + 내용5 ;
+
+        System.out.println(header);
+        System.out.println(boardlist);
+        System.out.print(footer);
+
 
         /* ----------- */
 
