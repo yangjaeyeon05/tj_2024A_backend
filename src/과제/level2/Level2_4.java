@@ -18,12 +18,16 @@ public class Level2_4 {
 
         Scanner scanner = new Scanner(System.in);
 
-        int com = new Random().nextInt(3);
-        System.out.println(com);
+        int random = new Random().nextInt(3);
+        System.out.println(random);
 
+        System.out.print("가위 바위 보 : ");
         String player = scanner.next();
-        System.out.println(player);
+        // System.out.println(player);
+
+        // 결과 값을 낼 변수들
         int playerNum = 0;  // 문자로 받은 값 숫자로 바꾸기 위한 변수.
+        int com = random;
 
         if(player.equals("주먹")){
             playerNum = 0;
@@ -34,18 +38,52 @@ public class Level2_4 {
         if(player.equals("보")){
             playerNum = 2;
         }
-        System.out.println(playerNum);
+        if(!player.equals("주먹")&&!player.equals("가위")&&!player.equals("보")){
+            System.out.println("알 수 없는 코드입니다.");
+        }
+
+        // System.out.println(playerNum);
 
         // 주먹 = 0 가위 = 1 보 = 2
         System.out.println(" >> Level2_4 answer >> ");
         System.out.println(" >> answer time : " + LocalDateTime.now() + " >> \n");
-        /*
-        switch (player){
-            case 0:
-                if(com==0){
-                    System.out.println("무승부");
-                }
+        // 무승부일 경우
+        if(playerNum==com){
+            System.out.println("무승부입니다.");
         }
-        */
+        // 만약 내가 주먹을 낼 경우
+        if(playerNum == 0){
+            // com 가위 일 경우
+            if(com==1){
+                System.out.println("player 승리");
+            }
+            // com 보일 경우
+            if(com==2){
+                System.out.println("com 승리");
+            }
+        }
+        // 만약 내가 가위를 낼 경우
+        if(playerNum == 1){
+            // com 주먹 일 경우
+            if(com==0){
+                System.out.println("com 승리");
+            }
+            // com 보일 경우
+            if(com==2){
+                System.out.println("player 승리");
+            }
+        }
+        // 만약 내가 보를 낼 경우
+        if(playerNum == 2){
+            // com 가위 일 경우
+            if(com==1){
+                System.out.println("com 승리");
+            }
+            // com 주먹일 경우
+            if(com==0){
+                System.out.println("player 승리");
+            }
+        }
+
     }
 }
