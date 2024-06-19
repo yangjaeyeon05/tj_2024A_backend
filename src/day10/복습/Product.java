@@ -1,4 +1,4 @@
-package day10;
+package day10.복습;
 
 public class Product {
     String productCode;
