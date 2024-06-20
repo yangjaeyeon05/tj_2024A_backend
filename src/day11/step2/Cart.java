@@ -1,4 +1,4 @@
-package day11.step1;
+package day11.step2;
 
 public class Cart {
     private int cartCode;
@@ -9,6 +9,14 @@ public class Cart {
         this.cartCode = cartCode;
         this.productCode = productCode;
         this.amount = amount;
+    }
+
+    public int getCartCode() {
+        return cartCode;
+    }
+
+    public void setCartCode(int cartCode) {
+        this.cartCode = cartCode;
     }
 
     public int getProductCode() {
@@ -25,5 +33,14 @@ public class Cart {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "cartCode=" + cartCode +
+                ", productCode=" + productCode +
+                ", amount=" + amount +
+                '}';
     }
 }

@@ -1,18 +1,17 @@
-package day11.step1;
+package day11.step2;
 
 public class OrderDetail {
     private int orderDetailCode;    // 주문마다 자동 증가
     private int productCode;        // 카트에서 넘어오는 속성.
     private int orderAmount;        // 카트에서 넘어오는 속성.
-    static int orderDetailCodeCount = 1;
-
+    static int orderdetailCount = 1;
 
     public int getOrderDetailCode() {
         return orderDetailCode;
     }
 
     public void setOrderDetailCode(int orderDetailCode) {
-        this.orderDetailCode = orderDetailCode;
+        this.orderDetailCode = orderdetailCount;
     }
 
     public int getProductCode() {
@@ -30,6 +29,7 @@ public class OrderDetail {
     public void setOrderAmount(int orderAmount) {
         this.orderAmount = orderAmount;
     }
+
 
     @Override
     public String toString() {

@@ -1,14 +1,15 @@
-package day11.step1;
+package day11.step2;
 
 public class Category {
     private int categoryCode;
     private String categoryName;
-    private static int categoryCount = 1;
+    private static int count = 1;
 
-    public Category(String categoryName) {
-        this.categoryCode = categoryCount;
+    public Category( String categoryName) {
+        this.categoryCode = count;
         this.categoryName = categoryName;
-        categoryCount++;
+        count++;
+
     }
 
     public int getCategoryCode() {

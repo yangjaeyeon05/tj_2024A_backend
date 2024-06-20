@@ -1,30 +1,30 @@
-package day11.step1;
+package day11.step2;
 
 import java.util.ArrayList;
 
-import static day11.step1.OrderDetail.orderDetailCodeCount;
+import static day11.step2.OrderDetail.orderdetailCount;
 
 public class Order {
     private int orderCode;
     private String orderTime;
     ArrayList<OrderDetail> orderDetailList;
-
-    private static int orderCodeCount = 1;
+    private static int count = 1;
 
     public Order(String orderTime) {
-        this.orderCode = orderCodeCount;
+        this.orderCode = count;
         this.orderTime = orderTime;
         orderDetailList = new ArrayList<OrderDetail>();
-        orderCodeCount++;
+        count++;
     }
 
     public void addOrderDetail(int productCode, int orderAmount){
         OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setOrderDetailCode(orderCode);
+        orderDetail.setOrderDetailCode(orderdetailCount);
         orderDetail.setProductCode(productCode);
         orderDetail.setOrderAmount(orderAmount);
         orderDetailList.add(orderDetail);
-        orderDetailCodeCount++;
+        orderdetailCount++;
+
     }
 
     public int getOrderCode() {

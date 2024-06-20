@@ -1,18 +1,18 @@
-package day11.step1;
+package day11.step2;
 
 public class Product {
     private int productCode;
     private String productName;
     private int productPrice;
     private int categoryCode;
-    private static int prodCodeCount = 1;
+    private static int count = 1;
 
     public Product(String productName, int productPrice, int categoryCode) {
-        this.productCode = prodCodeCount;
+        this.productCode = count;
         this.productName = productName;
         this.productPrice = productPrice;
         this.categoryCode = categoryCode;
-        prodCodeCount++;
+        count++;
     }
 
     public int getProductCode() {
