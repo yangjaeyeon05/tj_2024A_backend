@@ -3,12 +3,12 @@ package day10.step3;
 import java.util.ArrayList;
 
 public class Student {
-    int StudentID;
+    int studentID;
     String studentName;
     ArrayList<Subject> subjectList;
 
     public Student(int studentID, String studentName) {
-        StudentID = studentID;
+        this.studentID = studentID;
         this.studentName = studentName;
         subjectList = new ArrayList<Subject>();
     }
@@ -29,4 +29,12 @@ public class Student {
         System.out.println("학생 "+studentName+"의 총점은 "+total+"입니다.");
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentID=" + studentID +
+                ", studentName='" + studentName + '\'' +
+                ", subjectList=" + subjectList +
+                '}';
+    }
 }

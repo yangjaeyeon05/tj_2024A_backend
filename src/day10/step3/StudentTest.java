@@ -25,19 +25,48 @@ public class StudentTest {
         ArrayList<Student> studentList = new ArrayList<>();
 
         while(true){
-            System.out.println("1. 학생등록 2. 점수등록 3. 점수확인 4. 학생삭제 선택]");
+            System.out.println("1. 학생등록 2. 점수등록 3. 점수확인 4. 학생삭제  5. 종료 선택]");
             int ch = scanner.nextInt();
             if(ch==1){
                 // 1번을 누를 때마다
+                System.out.print("학번을 입력하세요.");  int newStudentID = scanner.nextInt();
+                System.out.print("학생 이름을 입력하세요.");      String newStudentName = scanner.next();
+
+                studentList.add(new Student(newStudentID,newStudentName));
+                System.out.println(studentList);
             }
             if(ch==2){
+                System.out.print("점수 등록할 학생의 학번을 입력해주세요.");    int checkID = scanner.nextInt();
+                for(int i = 0 ; i < studentList.size(); i++){
+                    if(studentList.get(i).studentID==checkID){
+                        System.out.print("과목명을 입력하세요."); String newSubjectName = scanner.next();
+                        System.out.print("점수를 입력하세요."); int newScorePoint = scanner.nextInt();
 
+                        studentList.get(i).addSubject(newSubjectName,newScorePoint);
+                        System.out.println(studentList);
+                    }
+                }
             }
             if(ch==3){
-
+                System.out.print("점수 확인할 학생의 학번을 입력해주세요.");    int checkID = scanner.nextInt();
+                for(int i = 0 ; i < studentList.size(); i++) {
+                    if (studentList.get(i).studentID == checkID) {
+                        System.out.println(studentList.get(i).subjectList);
+                    }
+                }
             }
             if(ch==4){
-
+                System.out.print("삭제할 학생의 학번을 입력해주세요.");    int checkID = scanner.nextInt();
+                for(int i = 0 ; i < studentList.size(); i++) {
+                    if (studentList.get(i).studentID == checkID) {
+                        studentList.remove(i);
+                        System.out.println(studentList);
+                    }
+                }
+            }
+            if(ch==5){
+                System.out.println("종료");
+                break;
             }
 
         }
