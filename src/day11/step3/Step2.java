@@ -1,4 +1,4 @@
-package day11.step2;
+package day11.step3;
 
 import java.util.ArrayList;
 import java.util.Scanner;
