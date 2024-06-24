@@ -1,7 +1,7 @@
 /*
 	제약조건
-		1. not null		: 해당 필드에 null 값을 포함하지 않는다.
-        2. default		: 해당 필드의 기본값 설정
+		1. not null			: 해당 필드에 null 값을 포함하지 않는다.
+        2. default			: 해당 필드의 기본값 설정
         3. unique 			: 해당 필드내 중복된 값을 허용하지 않는다.[중복제거]
         4. auto_increment 	: 레코드 삽입시 해당 필드내 자동번호 부여 , (MYSQL)
 */

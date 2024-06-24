@@ -47,3 +47,8 @@
     2. MYSQL Workbench 8.x 설치   , 인텔리제이 역할
     [  ]
     [ PORT 확인 : 3306 ]
+    [ password : 1234(임의) ]
+        [ 다음 ] -> [ 설치 완료 ]
+
+MYSQL Workbench 실행 후 mysql server 접속
+    - localhost:3306 서버 선택 , 비밀번호 1234 입력후 접속
