@@ -10,7 +10,7 @@ public class Step2 {
     public static void main(String[] args) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/day05" , "root" , "polyketon5!");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/day05" , "root" , "1234");
 
             String sql = "insert into table1 values('유재석')";
             // (SQL) Statement 기재 Prepare 준비하다  , .prepareStatement() : sql 문자열을 매개변수로 전달 , 해당 sql를 조작할 수 있는 구현체 반환

@@ -1,0 +1,128 @@
+주제 : MVC패턴 기반의 console 회원제 게시판
+    1. 구현 기능
+        회원   : 회원가입 , 로그인 , 아이디찾기 , 비밀번호찾기 , 회원탈퇴 , 회원수정
+        게시판 : 글 작성 , 글 전체 출력 , 글 개별 출력 , 글 삭제 , 글 수정 , 조회수
+        댓글   : 댓글 작성 , 댓글 출력 , 댓글 삭제 , 댓글 수정
+
+    2. 데이터베이스 설계
+        --- 샘플 데이터 이용한 데이터 파악 (머리 안그려지면 눈에 보이도록 시각화 -- 협업에는 각 생각들이 다르기 때문에 추상화 --> 시각화 설계)
+        1. 필드 파악 : 저장/영구 할 데이터들을 파악
+            아이디 , 비밀번호 , 이름 , 연락처 , 가입일 , 글제목 , 글내용 , 글작성일 , 글작성자 , 글조회수 ,
+            댓글 내용 , 댓글 작성일
+            - 유효성검사(X) = 비밀번호 확인 / 연산데이터(x) = 순위 , 총합계 , 평균 등등
+
+        2. 필드 분류 : 필드들을 기능별로 테이블 형식으로 분류 , 중복 최소화 분류 , 로그/기록에 따른 분류
+            회원 : 아이디 , 비밀번호 , 이름 , 연락처 , 가입일 ,
+            게시물 : 글제목 , 글내용 , 글작성일 , 글작성자 , 글조회수
+            댓글 : 댓글 내용 , 댓글 작성일 , 댓글 작성자
+
+        3. 필드 관계 : 1:1 , 1:n , (실무X)n:n
+            회원 게시판 관계 [1:n]   : 회원이 게시물을 작성 , 회원1명 - 게시물 1개 , 회원1명 - 게시물 n개
+            회원 댓글 관계 [1:n]    : 회원이 댓글을 작성 , 회원1명 - 댓글 1개 , 회원1명 - 댓글 n개
+            게시물 댓글 관계 [1:n]  : 게시물 안에 댓글 작성 , 게시물1개 - 댓글 1개 , 게시물1개 - 댓글 n개
+            * PK - FK : 1 = PK , N = FK
+            * 관례적으로 테이블 1개당 PK 1개
+            회원번호PK -- 글작성자(회원번호FK)
+            회원번호PK -- 댓글작성자(회원번호FK)
+            글번호PK -- 댓글위치(글번호FK)
+
+    - SQL 작성
+
+    drop database if exists day06;
+    create database day06;
+    use day06;
+
+    -- 1. 회원테이블
+    drop table if exists member;
+    create table member(	-- 아이디 , 비밀번호 , 이름 , 연락처 , 가입일 , 회원번호(pk , ai)
+    	mid varchar(30) not null unique ,
+        mpwd varchar(30) not null ,
+        mname varchar(20) not null ,
+        mphone varchar(15) not null ,
+        mdate datetime default now() ,
+        mno int auto_increment ,
+        primary key(mno)
+    );
+    select * from member;	-- 확인용
+
+    -- 2. 게시물테이블
+    drop table if exists board;
+    create table board(		-- 글제목 , 글내용 , 글작성일 , 글작성자 , 글조회수
+    	btitle varchar(100) not null ,
+        bcontent longtext ,
+        bdate datetime default now() ,
+        bview smallint default 0 ,
+        mno int ,
+        bno int auto_increment ,
+        primary key(bno) ,
+        foreign key(mno) references member(mno)
+    );
+    select * from board;
+
+    -- 3. 댓글 테이블
+    drop table if exists reply;
+    create table reply(		-- 댓글 내용 , 댓글 작성일 , 댓글 작성자
+    	rcontent varchar(200) not null ,
+        rdate datetime default now() ,
+        mno int ,
+        bno int ,
+        rno int auto_increment ,
+        primary key(rno) ,
+        foreign key(mno) references member(mno) ,
+        foreign key(bno) references board(bno)
+    );
+    select * from reply;
+
+    -- ERR 다이어그램 확인
+
+    -- 샘플 데이터 등록
+    -- 회원 5명
+    insert into member( mid , mpwd , mname , mphone ) values( 'qwer' , '1234' , '유재석' , '010-0000-0000' );
+    insert into member( mid , mpwd , mname , mphone ) values( 'asdf' , '4567' , '강호동' , '010-1235-4567' );
+    insert into member( mid , mpwd , mname , mphone ) values( 'zxcv' , '8910' , '신동엽' , '010-4653-7894' );
+    insert into member( mid , mpwd , mname , mphone ) values( 'rtuy' , '1112' , '하하' , '010-7897-4652' );
+    insert into member( mid , mpwd , mname , mphone ) values( 'fghj' , '1314' , '양세찬' , '010-6582-1635' );
+    select *from member;
+    -- 게시물 5개
+    insert into board( btitle , bcontent , mno ) values('안녕하세요1' , '안녕하세요내용1' , 1);
+    insert into board( btitle , bcontent , mno ) values('안녕하세요2' , '안녕하세요내용2' , 2);
+    insert into board( btitle , bcontent , mno ) values('안녕하세요3' , '안녕하세요내용3' , 3);
+    insert into board( btitle , bcontent , mno ) values('안녕하세요4' , '안녕하세요내용4' , 1);
+    insert into board( btitle , bcontent , mno ) values('안녕하세요5' , '안녕하세요내용5' , 5);
+    select *from board;
+    -- 댓글 5개
+    insert into reply( rcontent , mno , bno ) values( 'ㅋㅋㅋㅋㅋㅋ' , 1 , 2 );		# 2번 게시물에 1번 회원이 쓴 글
+    insert into reply( rcontent , mno , bno ) values( '재미있다' , 1 , 1 );
+    insert into reply( rcontent , mno , bno ) values( 'ㅎㅎㅎㅎㅎㅎㅎㅎ' , 1 , 5 );
+    insert into reply( rcontent , mno , bno ) values( '댓글내용4' , 3 , 2 );
+    insert into reply( rcontent , mno , bno ) values( '댓글내용5' , 4 , 1 );
+    select * from reply;
+
+2. 자바 프로젝트 패키지 구조 설계 , 분류 : 1. MVC기반 2. 기능별
+view 패키지        : view 클래스들을 보관하는 패키지           , 역할 : 입출력
+    MemberView 클래스
+    BoardView 클래스
+controller 패키지  : controller 클래스들을 보관하는 패키지     , 역할 : 데이터전달 , 데이터유효성검사 , 데이터형변환
+    MemberController 클래스
+    BoardController 클래스
+model 패키지       : dto , dao 클래스들을 보관하는 패키지      , 역할 : 데이터관리
+    dto 패키지                                             DTO : 데이터 이동 객체
+        MemberDto 클래스
+        BoardDto 클래스
+        ReplyDto 클래스
+    dao 패키지                                             DAO : 데이터 접근 객체 , DB 연동 객체
+        MemberDao 클래스
+        BoardDao(=ReplyDao) 클래스
+AppStart 클래스    : 해당 프로그램을 시작하는 클래스
+
+
+
+
+
+
+
+
+
+
+
+

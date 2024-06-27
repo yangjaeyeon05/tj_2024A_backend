@@ -17,7 +17,7 @@ public class Dao {
     Dao(){  // 연동 코드
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/day05" , "root" , "polyketon5!");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/day05" , "root" , "1234");
             System.out.println("연동성공");
         }catch (Exception e){
             System.out.println(">> 연동실패 : "+ e);
