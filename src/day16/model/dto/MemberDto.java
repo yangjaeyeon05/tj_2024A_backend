@@ -1,16 +1,16 @@
-package day16.model.dto;
+package day16.model.dto;        // day16 -> model package 안 dto package
 
-public class MemberDto {    // 이동객체
+public class MemberDto {    // 이동객체를 생성하기 위한 class 정의
     // 1. 멤버변수 <---> DB 필드와 동일 , private 권장
-    private String mid;
-    private String mpwd;
-    private String mname;
-    private String mphone;
-    private String mdate;
-    private int mno;
+    private String mid;     // 아이디타입 String  DB : vachar
+    private String mpwd;    // 비밀번호타입 String  DB : vachar
+    private String mname;   // 이름타입 String  DB : vachar
+    private String mphone;  // 연락처타입 String  DB : vachar
+    private String mdate;   // 회원가입일 String  DB : datetime
+    private int mno;        // 회원번호타입 int  DB : int
 
     // 2. 생성자 : 기본생성자 , 풀생성자
-    public MemberDto(){}
+    public MemberDto(){}    // 기본생성자
     public MemberDto(String mid, String mpwd, String mname, String mphone, String mdate, int mno) {
         this.mid = mid;
         this.mpwd = mpwd;
@@ -18,7 +18,7 @@ public class MemberDto {    // 이동객체
         this.mphone = mphone;
         this.mdate = mdate;
         this.mno = mno;
-    }
+    }   // 풀생성자
     // -- 회원가입용 생성자
     public MemberDto(String mid, String mpwd, String mname, String mphone) {
         this.mid = mid;
@@ -76,7 +76,7 @@ public class MemberDto {    // 이동객체
     }
 
     @Override
-    public String toString() {
+    public String toString() {                  // 주소가 아닌 값을 보기 위한 toString 기능
         return "MemberDto{" +
                 "mid='" + mid + '\'' +
                 ", mpwd='" + mpwd + '\'' +
