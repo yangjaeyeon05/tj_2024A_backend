@@ -35,7 +35,6 @@ public class BoardView {                        // BoardView 클래스 정의
 
         }   // while end
 
-
     }   // index2() end
 
     // 1. 로그아웃 함수
