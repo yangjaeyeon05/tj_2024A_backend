@@ -1,5 +1,6 @@
 package day16.model.dao;
 
+import day16.controller.MemberController;
 import day16.model.dto.MemberDto;
 
 import java.sql.Connection;
@@ -51,10 +52,8 @@ public class MemberDao {
         return false;   // 5. 메소드 반환
     }   // signup() end
 
-    // 2. 로그인 화면 함수
-    public boolean login(MemberDto memberDto){
-        System.out.println("memberDto = " + memberDto);
-        boolean result = false;
+    // 2. 로그인 화면 함수 : 로그인 성공한 회원번호 반환
+    public int login(MemberDto memberDto){
         try {
             String sql = "select * from member where mid = ? and mpwd = ?";  // 1. SQL 작성한다.
             ps = conn.prepareStatement(sql);    // DB 연동 객체에 SQL를 기재
@@ -64,13 +63,12 @@ public class MemberDao {
             rs = ps.executeQuery(); // 5. 쿼리 실행 후 결과를 rs로 받는다.
             // 6. 다음 레코드 : 로그인 성공 시 레코드 1개 로그인 실패 시 레코드 0개
             if(rs.next()){  // 다음 레코드가 1개라도 존재하면 로그인 성공
-                result = true;
-                return result;
+                return rs.getInt("mno");
             }
         }catch (Exception e){
             System.out.println(e);
         }
-        return result;   // 로그인 실패
+        return 0;   // 로그인 실패
     }   // login() end
 
     // 3. 아이디찾기 함수
@@ -113,4 +111,55 @@ public class MemberDao {
         return null;
     }   // findPwd() end
 
+    // 5. 회원탈퇴 함수
+    public boolean mDelete(int loginMno , String confirmPwd){
+        try {
+            String sql = "delete from member where mno = ? and mpwd = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1 , loginMno);
+            ps.setString(2 , confirmPwd );
+            int count = ps.executeUpdate();
+            if(count == 1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // mDelete() end
+
+    // 2. 회원수정 함수
+    public boolean mUpdate(MemberDto memberDto){
+        try{
+            String sql = "update member set mname = ? , mphone = ? where mno = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1 , memberDto.getMname());
+            ps.setString(2 , memberDto.getMphone() );
+            ps.setInt(3, memberDto.getMno());
+            int count = ps.executeUpdate();
+            if(count == 1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // mUpdate() end
+
+    // * 비밀번호 확인 함수
+    public boolean confirmPw(String confirmPwd , int loginMno){
+        try{
+            String sql = "select * from member where mno = ? and mpwd = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, loginMno );
+            ps.setString(2 , confirmPwd );
+            rs = ps.executeQuery();
+            if(rs.next()){  // 다음 레코드가 1개라도 존재하면 로그인 성공
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
 }

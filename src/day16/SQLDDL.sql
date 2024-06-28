@@ -26,6 +26,8 @@ create table board(		-- 글제목 , 글내용 , 글작성일 , 글작성자 , �
     bno int auto_increment ,
     primary key(bno) , 
     foreign key(mno) references member(mno)
+    # 회원의 pk 값이 삭제되거나 수정되면 게시물 fk 어떻게 할건지 .. 제약조건옵션 설정하기
+    on delete cascade on update cascade
 );
 select * from board;
 
@@ -38,8 +40,8 @@ create table reply(		-- 댓글 내용 , 댓글 작성일 , 댓글 작성자
     bno int , 
     rno int auto_increment , 
     primary key(rno) , 
-    foreign key(mno) references member(mno) , 
-    foreign key(bno) references board(bno)
+    foreign key(mno) references member(mno) on delete cascade on update cascade , 
+    foreign key(bno) references board(bno) on delete cascade on update cascade
 );
 select * from reply;
 
@@ -87,4 +89,19 @@ select * from member where mid = 'qwer' and mphone = '010-0000-0000';
 select * from member where mid = 'qwer' and mpwd = '1234';
 	# JDBC 매개변수 대입 : select * from member where mid = ? and mpwd = ?;
     
+-- 탈퇴
+# 1. 회원번호가 '1'인 회원 삭제
+delete from member where mno = 1;
+# 2. 회원번호사 1이면서 비밀번호가 1234 인 회원 삭제
+delete from member where mno = 1 and mpwd = '1234';
+	# JDBC 매개변수 대입 : delete from member where mno = ? and mpwd = ?;
+    
+-- 수정
+# 1. 회원번호가 0인 회원 레코드의 이름을 '유재석'으로 수정
+update member set mname = '유재석' where mno = 0; 
+# 2. 회원번호가 0인 회원 레코드의 이름을'유재석' ,(쉼표)구분해서 연락처 '010-9999-9999'로 수정
+update member set mname = '유재석' , mphone = '010-9999-9999' where mno = 0; 
+	# JDBC 매개변수 대입 : update member set mname = ? , mphone = ? where mno = ?;
+
+
 

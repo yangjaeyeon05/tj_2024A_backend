@@ -74,6 +74,8 @@ public class MemberView {
 
         if(result){
             System.out.println(">> 로그인성공");
+            // 로그인 성공 시 로그인된 메뉴로 이동
+            BoardView.bView.index2();
         }else {
             System.out.println(">> 로그인실패");
         }
