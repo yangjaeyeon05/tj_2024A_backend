@@ -178,12 +178,12 @@ public class BoardView {                        // BoardView 클래스 정의
 
             boolean result = BoardController.getInstance().bUpdate(boardDto);
             if(result){
-                System.out.println("수정성공");
+                System.out.println(">> 수정성공 ");
             }else {
-                System.out.println("수정실패");
+                System.out.println(">> 본인 글만 수정 가능합니다. ");
             }
         } else {
-            System.out.println(">> 비밀번호가 맞지 않습니다.");
+            System.out.println(">> 비밀번호가 맞지 않습니다. ");
         }
     }
 }   // BoardView class end
