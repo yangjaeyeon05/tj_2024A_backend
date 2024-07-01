@@ -1,6 +1,10 @@
 package day16.model.dto;        // day16 -> model package 안 dto package
 
 public class MemberDto {    // 이동객체를 생성하기 위한 class 정의
+
+    // - DB테이블의 회원마다 레코드/행 1개고  레코드/행 1개 당 DTO1개
+    // -> 회원이 여러개이면 --> DTO 여러개 --> ArryList<MemberDto>
+
     // 1. 멤버변수 <---> DB 필드와 동일 , private 권장
     private String mid;     // 아이디타입 String  DB : vachar
     private String mpwd;    // 비밀번호타입 String  DB : vachar

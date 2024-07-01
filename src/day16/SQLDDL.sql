@@ -102,6 +102,21 @@ update member set mname = '유재석' where mno = 0;
 # 2. 회원번호가 0인 회원 레코드의 이름을'유재석' ,(쉼표)구분해서 연락처 '010-9999-9999'로 수정
 update member set mname = '유재석' , mphone = '010-9999-9999' where mno = 0; 
 	# JDBC 매개변수 대입 : update member set mname = ? , mphone = ? where mno = ?;
+    
+-- 조회
+# 1. 전체 조회
+select * from board;
+# 2. 개별 조회 ( 조건 )
+select * from board where bno = 3;	-- 3번 게시물 개별 조회
+
+-- 삭제
+delete from board where bno = 0;	
+delete from board where bno = 0 and mno = 0;	-- 작성자 번호가 0이면서 게시물 번호가 0인 게시물/레코드 삭제
+
+-- 수정
+update board set btitle = '' , bcontent = '0' where mno = 0 and bno = 0;
+
+
 
 
 

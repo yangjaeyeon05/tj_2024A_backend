@@ -1,8 +1,11 @@
 package day16.view;     // day16 package 안 view package
 
+import day16.controller.BoardController;
 import day16.controller.MemberController;       // day16 -> controller 패키지 안 MemberController 클래스 불러온다.
+import day16.model.dto.BoardDto;
 import day16.model.dto.MemberDto;               // day16 -> model -> dto 패키지 안 MemberDto 클래스 불러온다.
 
+import java.util.ArrayList;
 import java.util.Scanner;                       // JAVA에서 만든 Scanner 클래스 불러온다. 스캐너 기능을 사용하기 위해
 
 public class BoardView {                        // BoardView 클래스 정의
@@ -91,6 +94,103 @@ public class BoardView {                        // BoardView 클래스 정의
 
     // 4. 게시판(게시물전체출력) 함수
     public void bPrint(){
-
+        // 컨트롤러에게 전체 게시물 조회 요청
+        ArrayList<BoardDto> result = BoardController.getInstance().bPrint();
+        System.out.println("번호\t조회수\t작성일\t\t\t제목");
+        // 리스트객체명.foreach(반복변수 -> {실행문;});
+            // 리스트내 전체 dto를 하나씩 반복변수에 대입 반복
+        result.forEach(dto -> {
+            System.out.printf("%2d\t%2d\t%10s\t%s\n" , dto.getBno() , dto.getBview() , dto.getBdate() , dto.getBtitle());
+        });
+        System.out.print("0. 글쓰기 1~:개별글조회 : "); int ch = scanner.nextInt();
+        if(ch==0){
+            bWrite();
+        } else if (ch>=1) {
+            bView(ch);
+        }
     }   // bPrint() end
+
+    // 5. 게시물 쓰기 함수
+    public void bWrite(){
+        // 제목과 내용을 입력받아 컨트롤러에 매개변수로 넣어준다.
+        System.out.print(">> 제목을 입력해주세요 : "); String btitle = scanner.next();
+        System.out.print(">> 내용을 입력해주세요 : "); String bcontent = scanner.next();
+        // 2. 객체화
+        BoardDto boardDto = new BoardDto();
+        boardDto.setBtitle(btitle);
+        boardDto.setBcontent(bcontent);
+        // 결과 값은 게시글 성공 여부를 따져야하기에 boolean으로 받는다.
+        boolean result = BoardController.getInstance().bWrite(boardDto);
+        if(result){
+            System.out.println("게시물 등록 성공");
+        }else {
+            System.out.println("게시물 등록 실패");
+        }
+    }   // bWrite() end
+
+    // 6. 게시물 개별조회 함수
+    public void bView(int bno){
+        // 컨트롤러에 매개변수 게시물번호 전달후 해당 게시물 정보를 반환받는다.
+        BoardDto result = BoardController.getInstance().bView(bno);
+        if(result == null){
+            System.out.println("존재하지 않는 게시물입니다.");
+            return;
+        }
+        System.out.println("제목 : "+result.getBtitle());
+        System.out.print("작성자 : "+result.getMno());
+        System.out.println("\t조회수 : "+result.getBview());
+        System.out.println("작성일 : "+result.getBdate());
+        System.out.println("내용 : "+result.getBcontent());
+
+        System.out.print("1. 삭제 2. 수정 : "); int ch = scanner.nextInt();
+        if(ch==1){
+            bDelete(bno);
+        } else if (ch==2) {
+            bUpdate(bno);
+        }else {
+
+        }
+    }   // bView() end
+
+    // 7. 게시물 삭제 함수
+    public void bDelete(int bno){
+        boolean result = BoardController.getInstance().bDelete(bno);
+        if(result){
+            System.out.println(">> 삭제성공 ");
+        }else {
+            System.out.println(">> 본인 글만 삭제 가능합니다. ");
+        }
+    }
+
+    // 8. 게시물 수정 함수
+    public void bUpdate(int bno){
+        System.out.print(">> 비밀번호 입력 : ");      // 회원 수정을 위한 현재 로그인 한 회원의 비밀번호 입력
+        String confirmPwd = scanner.next();         // 입력 받은 값 String 타입에 저장
+        // 결과 값을 boolean으로 받아 유효성 검사를 위해 변수 저장
+        boolean confirm = MemberController.mControl.confirmPw(confirmPwd);
+        if(confirm){
+            System.out.print("수정할 새로운 제목을 입력하세요 : "); String newBtitle = scanner.next();
+            System.out.print("수정할 새로운 내용을 입력하세요 : "); String newBcontent = scanner.next();
+            BoardDto boardDto = new BoardDto();
+            boardDto.setBno(bno);
+            boardDto.setBtitle(newBtitle);
+            boardDto.setBcontent(newBcontent);
+
+            boolean result = BoardController.getInstance().bUpdate(boardDto);
+            if(result){
+                System.out.println("수정성공");
+            }else {
+                System.out.println("수정실패");
+            }
+        } else {
+            System.out.println(">> 비밀번호가 맞지 않습니다.");
+        }
+    }
 }   // BoardView class end
+
+
+
+
+
+
+
