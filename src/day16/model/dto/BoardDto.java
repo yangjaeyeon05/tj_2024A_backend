@@ -8,6 +8,8 @@ public class BoardDto {     // 이동객체를 생성하기 위한 class 정의
     private int bview;
     private int mno;
     private int bno;
+    // * 작성자 아이디
+    private String mid;
     // 2. 생성자
     public BoardDto(){}
 
@@ -68,6 +70,15 @@ public class BoardDto {     // 이동객체를 생성하기 위한 class 정의
     public void setBno(int bno) {
         this.bno = bno;
     }
+
+    public String getMid() {
+        return mid;
+    }
+
+    public void setMid(String mid) {
+        this.mid = mid;
+    }
+
     // 2. toString
     @Override
     public String toString() {
