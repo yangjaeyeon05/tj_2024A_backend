@@ -42,17 +42,21 @@ public class MyAccountView {
     // 로그인 후 페이지
     public void index2(){
         while(true){        // 메뉴 설정을 종료되거나 오류가 생기기 전까지 반복하기 위해 while문
-            System.out.print(">> 1. 로그아웃 2. 회원수정 3. 회원탈퇴 4. 게임시작 : ");   // 컨셉 상 설정한 메뉴를 입력 받기 위해 먼저 안내해준다.
+            System.out.print(">> 1. 로그아웃 2. 내정보 3. 회원수정 4. 회원탈퇴 5. 게임시작: ");   // 컨셉 상 설정한 메뉴를 입력 받기 위해 먼저 안내해준다.
             int ch = scan.nextInt();     // 위에 안내한 메뉴를 정수로 입력 받아 변수에 저장한다.
             if(ch==1){
-
+                logout(); return;
             }else if(ch==2){
-
+                myInfo();
             }else if(ch==3){
+                aUpdate();
+            }else if(ch==4) {
+                if(aDelete()){
+                    logout();   return;
+                }
+            } else if (ch==5) {
 
-            }else if(ch==4){
-
-            }else{
+            } else{
                 System.out.println(">> 없는 기능번호입니다.");
             }   // if end
         }   // while end
@@ -66,8 +70,8 @@ public class MyAccountView {
         System.out.print(">> 아이디 : "); String aid = scan.next();
         System.out.print(">> 비밀번호 : "); String apwd = scan.next();
         System.out.print(">> 이름 : "); String aname = scan.next();
-        System.out.print(">> 연락처 : "); String anum = scan.next();
-        System.out.print(">> 생년월일 : (951005) "); String abirth = scan.next();
+        System.out.print(">> 연락처(-제외) : "); String anum = scan.next();
+        System.out.print(">> 생년월일(6자리) : "); String abirth = scan.next();
 
         // 2. 유효성검사
         // 3. 객체화
@@ -106,7 +110,7 @@ public class MyAccountView {
     public void findID(){
         System.out.println(">> 아이디찾기 페이지 <<");
         System.out.print(">> 이름 : "); String aname = scan.next();    // 이름 입력받아 String 타입 변수에 저장
-        System.out.print(">> 연락처 : "); String anum = scan.next();
+        System.out.print(">> 연락처(-제외) : "); String anum = scan.next();
         System.out.print(">> 생년월일(6자리) : "); String abirth = scan.next();
 
         MyAccountDto myAccountDto = new MyAccountDto();
@@ -127,7 +131,7 @@ public class MyAccountView {
     public void findPWD(){
         System.out.println(">> 비밀번호 페이지 <<");
         System.out.print(">> 아이디 : "); String aid = scan.next();    // 이름 입력받아 String 타입 변수에 저장
-        System.out.print(">> 연락처 : "); String anum = scan.next();
+        System.out.print(">> 연락처(-제외) : "); String anum = scan.next();
         System.out.print(">> 생년월일(6자리) : "); String abirth = scan.next();
 
         MyAccountDto myAccountDto = new MyAccountDto();
@@ -144,4 +148,68 @@ public class MyAccountView {
     }   // findPWD() end
 
     // 5. 로그아웃
-}
+    public void logout(){
+        MyAccountController.getInstance().logout();
+        System.out.println(">> 로그아웃 성공 [초기메뉴로] ");
+    }   // logout() end
+
+    // 6. 내정보 출력
+    public void myInfo(){
+        System.out.println("// ============== 내정보 ============== //");
+        MyAccountDto myAccountDto = MyAccountController.getInstance().myInfo();
+        if(myAccountDto == null){
+            System.out.println(">> 회원 정보가 없습니다. ");
+            return;
+        }
+        System.out.println("회원번호 아이디  비밀번호 이름    연락처     생년월일 회원가입일");
+        System.out.printf("%3d"+"  "+"%s %s %s %s %s %s \n" , myAccountDto.getAkey() , myAccountDto.getAid() ,
+                myAccountDto.getApwd() , myAccountDto.getAname() , myAccountDto.getAnum() ,
+                myAccountDto.getAbirth() , myAccountDto.getAdate());
+    }   // myInfo() end
+
+    // 7. 회원수정
+    public void aUpdate(){
+        System.out.print(">> 비밀번호 입력 : ");      // 회원 수정을 위한 현재 로그인 한 회원의 비밀번호 입력
+        String confirmPwd = scan.next();         // 입력 받은 값 String 타입에 저장
+        // 결과 값을 boolean으로 받아 유효성 검사를 위해 변수 저장
+        boolean confirm = MyAccountController.getInstance().confirmPw(confirmPwd);
+        if(!confirm){
+            System.out.println(">> 비밀번호가 맞지 않습니다. ");
+            return;
+        }
+        System.out.print(">> 변경할 새로운 연락처 (-제외) : ");  String anum = scan.next();
+        System.out.print(">> 변경할 새로운 비밀번호 : ");   String apwd = scan.next();
+
+        MyAccountDto myAccountDto = new MyAccountDto();
+        myAccountDto.setAnum(anum);
+        myAccountDto.setApwd(apwd);
+
+        boolean result = MyAccountController.getInstance().aUpdate(myAccountDto);
+
+        if(result){
+            System.out.println(">> 회원정보를 성공적으로 수정했습니다.");
+        }else {
+            System.out.println(">> 회원정보 수정에 실패했습니다.");
+        }
+    }   // aUpdate() end
+
+    // 8. 회원탈퇴
+    public boolean aDelete(){
+        System.out.print(">> 비밀번호 입력 : ");      // 회원 수정을 위한 현재 로그인 한 회원의 비밀번호 입력
+        String confirmPwd = scan.next();         // 입력 받은 값 String 타입에 저장
+        // 결과 값을 boolean으로 받아 유효성 검사를 위해 변수 저장
+        boolean confirm = MyAccountController.getInstance().confirmPw(confirmPwd);
+        if(!confirm){
+            System.out.println(">> 비밀번호가 맞지 않습니다. ");
+            return false;
+        }
+        boolean result = MyAccountController.getInstance().aDelete(confirmPwd);
+        if(result){
+            System.out.println(">> 회원탈퇴 성공 ");
+            return true;
+        }else {
+            return false;
+        }
+    }   // aDelete() end
+
+}   // class end

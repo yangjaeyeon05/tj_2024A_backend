@@ -39,4 +39,30 @@ public class MyAccountController {
         return MyAccountDao.getInstance().findPWD(myAccountDto);
     }   // findPWD() end
 
+    // 5. 로그아웃
+    public void logout(){
+        loginAkey = 0;
+    }   // logout() end
+
+    // 6. 내정보 출력
+    public MyAccountDto myInfo(){
+        return MyAccountDao.getInstance().myInfo(loginAkey);
+    }   // myInfo() end
+
+    // 7.. 회원수정
+    public boolean aUpdate(MyAccountDto myAccountDto){
+        myAccountDto.setAkey(loginAkey);
+        return MyAccountDao.getInstance().aUpdate(myAccountDto);
+    }   // aUpdate() end
+
+    // * 비밀번호 확인
+    public boolean confirmPw(String confirmPwd){
+        return MyAccountDao.getInstance().confirmPw(confirmPwd , loginAkey);
+    }   // confirmPw() end
+
+    // 8. 회원탈퇴
+    public boolean aDelete(String confirmPwd){
+        return MyAccountDao.getInstance().aDelete(confirmPwd , loginAkey);
+    }   // aDelete() end
+
 }   // class end

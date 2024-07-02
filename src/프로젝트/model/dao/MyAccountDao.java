@@ -105,4 +105,80 @@ public class MyAccountDao {
         return null;
     }   // findPWD() end
 
+    // 6. 내정보 출력
+    public MyAccountDto myInfo(int loginAkey){
+        try{
+            String sql = "select * from myaccount where akey = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,loginAkey);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                int akey = loginAkey;
+                String aid = rs.getString("aid");
+                String apwd = rs.getString("apwd");
+                String aname = rs.getString("aname");
+                String anum = rs.getString("anum");
+                String abirth = rs.getString("abirth");
+                String adate = rs.getString("adate");
+                MyAccountDto myAccountDto = new MyAccountDto( akey , aid , apwd, aname, anum, abirth, adate);
+                return myAccountDto;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }   // myInfo() end
+
+    // 7. 회원수정
+    public boolean aUpdate(MyAccountDto myAccountDto){
+        try{
+            String sql = "update myaccount set anum = ? , apwd = ? where akey = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, myAccountDto.getAnum());
+            ps.setString(2, myAccountDto.getApwd());
+            ps.setInt(3,myAccountDto.getAkey());
+            int count = ps.executeUpdate();
+            if(count==1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // aUpdate() end
+
+    // * 비밀번호 확인
+    public boolean confirmPw(String confirmPwd , int loginAkey){
+        try{
+            String sql = "select * from myaccount where akey = ? and apwd = ? ";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,loginAkey);
+            ps.setString(2,confirmPwd);
+            rs =  ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // confirmPw() end
+
+    // 8. 회원탈퇴
+    public boolean aDelete(String confirmPwd , int loginAkey){
+        try{
+            String sql = "delete from myaccount where akey = ? and apwd = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,loginAkey);
+            ps.setString(2,confirmPwd);
+            int count = ps.executeUpdate();
+            if(count==1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }   // aDelete() end
+
 }   // class end
