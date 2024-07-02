@@ -116,6 +116,48 @@ delete from board where bno = 0 and mno = 0;	-- 작성자 번호가 0이면서 �
 -- 수정
 update board set btitle = '' , bcontent = '0' where mno = 0 and bno = 0;
 
+-- 댓글 확인
+select * from reply;				-- 댓글 전체 출력
+select * from reply where bno = 1;	-- 게시물 번호가 1번인 게시물에 작성된 댓글들
+select * from reply where mno = 1;	-- 회원번호가 1인 회원이 작성한 댓글들
+
+-- 댓글 쓰기
+insert into reply(rcontent , mno , bno) values('댓글내용6' , 3 , 1);
+
+-- 게시물 출력
+select* from board;
+-- 게시물 출력 시 mno가 아닌 mid출력
+	-- 1. 두 테이블을 출력한다.
+select * from board , member;
+	-- 2. 두 테이블의 관계 기준으로 (내부/교집합)조인한다.
+select * from board , member where board.mno = member.mno;
+select * from board natural join member;
+select * from board join member on board.mno = member.mno;
+select * from board join member using(mno);
+select * from board inner join member on board.mno = member.mno;
+	-- 테이블명을 간소화 할때 : 별칭 , 테이블명 뒤에 별칭/별명 작성
+select * from board b inner join member m on b.mno = m.mno;
+
+# 댓글 출력
+select * from reply;
+select * from reply r inner join member m on r.mno = m.mno;
+# 조건
+select * from reply r inner join member m on r.mno = m.mno where r.bno = 1;
+
+-- 조회 수 증가 처리 , 조회 수 1증가 , 기존 칠드 값을 변경 , update
+update board set bview = 1; # 전체 레코드의 필드값을 수정
+update board set bview = bview + 1;
+update board set bview = bview + 1 where bno = 1;
+select * from board;
+
+
+
+
+
+
+
+
+
 
 
 

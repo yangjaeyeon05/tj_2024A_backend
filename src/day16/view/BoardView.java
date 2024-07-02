@@ -4,6 +4,7 @@ import day16.controller.BoardController;
 import day16.controller.MemberController;       // day16 -> controller 패키지 안 MemberController 클래스 불러온다.
 import day16.model.dto.BoardDto;
 import day16.model.dto.MemberDto;               // day16 -> model -> dto 패키지 안 MemberDto 클래스 불러온다.
+import day16.model.dto.ReplyDto;
 
 import java.util.ArrayList;
 import java.util.Scanner;                       // JAVA에서 만든 Scanner 클래스 불러온다. 스캐너 기능을 사용하기 위해
@@ -96,11 +97,11 @@ public class BoardView {                        // BoardView 클래스 정의
     public void bPrint(){
         // 컨트롤러에게 전체 게시물 조회 요청
         ArrayList<BoardDto> result = BoardController.getInstance().bPrint();
-        System.out.println("번호\t조회수\t작성일\t\t\t제목");
+        System.out.println("번호\t조회수\t작성일\t\t\t작성자\t제목");
         // 리스트객체명.foreach(반복변수 -> {실행문;});
             // 리스트내 전체 dto를 하나씩 반복변수에 대입 반복
         result.forEach(dto -> {
-            System.out.printf("%2d\t%2d\t%10s\t%s\n" , dto.getBno() , dto.getBview() , dto.getBdate() , dto.getBtitle());
+            System.out.printf("%2d\t%2d\t%10s\t%10s\t%s\n" , dto.getBno() , dto.getBview() , dto.getBdate() , dto.getMid(),  dto.getBtitle());
         });
         System.out.print("0. 글쓰기 1~:개별글조회 : "); int ch = scanner.nextInt();
         if(ch==0){
@@ -112,6 +113,12 @@ public class BoardView {                        // BoardView 클래스 정의
 
     // 5. 게시물 쓰기 함수
     public void bWrite(){
+        // 만약에 상황상 로그인후 댓글 쓰기가 아니였다면
+        // 로그인 상태를 확인 후 댓글 쓰기 진행
+        if(!MemberController.mControl.loginState()){
+            System.out.println(">> 로그인 후 가능합니다.");
+            return;
+        }
         // 제목과 내용을 입력받아 컨트롤러에 매개변수로 넣어준다.
         System.out.print(">> 제목을 입력해주세요 : "); String btitle = scanner.next();
         System.out.print(">> 내용을 입력해주세요 : "); String bcontent = scanner.next();
@@ -137,18 +144,24 @@ public class BoardView {                        // BoardView 클래스 정의
             return;
         }
         System.out.println("제목 : "+result.getBtitle());
-        System.out.print("작성자 : "+result.getMno());
+        System.out.print("작성자 : "+result.getMid());
         System.out.println("\t조회수 : "+result.getBview());
         System.out.println("작성일 : "+result.getBdate());
         System.out.println("내용 : "+result.getBcontent());
 
-        System.out.print("1. 삭제 2. 수정 : "); int ch = scanner.nextInt();
+        // -------- 댓글 출력 -------- //
+        rPrint(bno);
+        // ------------------------- //
+
+        System.out.print(">> 0. 뒤로가기 1. 삭제 2. 수정 3. 댓글쓰기 : "); int ch = scanner.nextInt();
         if(ch==1){
             bDelete(bno);
         } else if (ch==2) {
             bUpdate(bno);
-        }else {
-
+        } else if (ch==3) {
+            rWrite(bno);
+        } else if (ch==0) {
+            return;
         }
     }   // bView() end
 
@@ -185,7 +198,46 @@ public class BoardView {                        // BoardView 클래스 정의
         } else {
             System.out.println(">> 비밀번호가 맞지 않습니다. ");
         }
-    }
+    }   // bUpdate() end
+
+    // 9. 댓글 출력 함수
+    public void rPrint(int bno){
+        // 컨트롤러에 댓글 arrayList 출력 요청
+        ArrayList<ReplyDto> result = BoardController.getInstance().rPrint(bno);
+
+        // 리스트객체명, forEach(반복변수 -> {실행문})
+            // 리스트내 요소들을 하나씩 반복변수에 대입 반복 처리
+        System.out.println("--------------- 댓글 ---------------");
+        result.forEach(reply -> {
+            System.out.printf("%s %s %s\n" , reply.getRdate() , reply.getMid() , reply.getRcontent());
+        });
+    }   // rPrint() end
+
+    // 10. 댓글 쓰기 함수
+    public void rWrite(int bno){
+        // 만약에 상황상 로그인후 댓글 쓰기가 아니였다면
+            // 로그인 상태를 확인 후 댓글 쓰기 진행
+        if(!MemberController.mControl.loginState()){
+            System.out.println(">> 로그인 후 가능합니다.");
+            return;
+        }
+        scanner.nextLine();
+        System.out.print("댓글 내용을 입력하세요. : ");
+        // 위에서 next() 후 엔터 쳤을 때 scan 객체에 엔터 기록이 남아있기 때문에 nextLine() 인식해서 입력했다는걸로 간주
+        // - 해결방안 : next() nextLine() 사이에 의미없는 scanner.nextLine(); 코드 작성
+        String newRContent = scanner.nextLine();
+        ReplyDto replyDto = new ReplyDto();
+        replyDto.setBno(bno);
+        replyDto.setRcontent(newRContent);
+        boolean result = BoardController.getInstance().rWrite(replyDto);
+        if(result){
+            System.out.println(">> 댓글작성완료");
+        }else {
+            System.out.println(">> 댓글작성실패");
+        }
+    }   // rWrite() end
+
+
 }   // BoardView class end
 
 

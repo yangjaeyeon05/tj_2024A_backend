@@ -25,7 +25,10 @@ public class MemberController {         // view에게 받은 값을 (타입변�
     public void logout(){
         loginMno = 0;   // 로그아웃 시 변수에 0을 넣어준다. => 비로그인 상태
     }
-
+    // 2-3 : 현재 로그인 상태 반환 함수
+    public boolean loginState(){
+        return loginMno == 0 ? false : true;
+    }
     // 2. 로그인 화면 함수
     // view가 성공 여부를 따져야하기 때문에 반환타입은 boolean
     public boolean login(MemberDto memberDto){      // view 에서 전달한 매개변수 값 MemberDto타입 memberDto변수
