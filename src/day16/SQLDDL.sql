@@ -116,6 +116,10 @@ delete from board where bno = 0 and mno = 0;	-- 작성자 번호가 0이면서 �
 -- 수정
 update board set btitle = '' , bcontent = '0' where mno = 0 and bno = 0;
 
+update monster set mhp = mhp - ? where mkey = ?;
+
+update mycharacter set chp = chp - ? where ckey = ?;
+
 
 
 
