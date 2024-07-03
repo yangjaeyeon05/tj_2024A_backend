@@ -122,7 +122,7 @@ public class BoardView {                        // BoardView 클래스 정의
         if(list.isEmpty()){
             System.out.println(">> 게시물이 존재하지 않습니다.");
         }
-        System.out.println("번호\t조회수\t작성일\t\t\t\t\t\t작성자\t제목");
+        System.out.println("번호\t조회수\t작성일\t\t\t작성자\t제목");
         list.forEach(dto -> {
             System.out.printf("%2d\t%2d\t%10s\t%10s\t%s\n" , dto.getBno() , dto.getBview() , dto.getBdate() , dto.getMid(),  dto.getBtitle());
         });
