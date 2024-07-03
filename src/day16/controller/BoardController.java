@@ -67,4 +67,9 @@ public class BoardController {  // BoardController 클래스 정의
         return BoardDao.getInstance().rWrite(replyDto);
     }   // rWrite() end
 
+    // 12. 제목 검색 함수
+    public ArrayList<BoardDto> search(String keyword){
+        return BoardDao.getInstance().search(keyword);
+    }   // search() end
+
 }   // BoardController class end

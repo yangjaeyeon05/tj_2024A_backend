@@ -6,6 +6,7 @@ import day16.model.dto.BoardDto;
 import day16.model.dto.MemberDto;               // day16 -> model -> dto 패키지 안 MemberDto 클래스 불러온다.
 import day16.model.dto.ReplyDto;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;                       // JAVA에서 만든 Scanner 클래스 불러온다. 스캐너 기능을 사용하기 위해
 
@@ -97,19 +98,35 @@ public class BoardView {                        // BoardView 클래스 정의
     public void bPrint(){
         // 컨트롤러에게 전체 게시물 조회 요청
         ArrayList<BoardDto> result = BoardController.getInstance().bPrint();
-        System.out.println("번호\t조회수\t작성일\t\t\t작성자\t제목");
+        System.out.println("번호\t조회수\t작성일\t\t\t\t\t\t작성자\t제목");
         // 리스트객체명.foreach(반복변수 -> {실행문;});
             // 리스트내 전체 dto를 하나씩 반복변수에 대입 반복
         result.forEach(dto -> {
             System.out.printf("%2d\t%2d\t%10s\t%10s\t%s\n" , dto.getBno() , dto.getBview() , dto.getBdate() , dto.getMid(),  dto.getBtitle());
         });
-        System.out.print("0. 글쓰기 1~:개별글조회 : "); int ch = scanner.nextInt();
+        System.out.print("-1. 제목 검색 0. 글쓰기 1~:개별글조회 : "); int ch = scanner.nextInt();
         if(ch==0){
             bWrite();
         } else if (ch>=1) {
             bView(ch);
+        } else if (ch==-1) {
+            search();
         }
     }   // bPrint() end
+
+    // 12. 제목 검색 함수
+    public void search(){
+        System.out.print(">> 검색할 제목의 키워드를 입력하세요 : ");
+        String keyword = scanner.next();
+        ArrayList<BoardDto> list = BoardController.getInstance().search(keyword);
+        if(list.isEmpty()){
+            System.out.println(">> 게시물이 존재하지 않습니다.");
+        }
+        System.out.println("번호\t조회수\t작성일\t\t\t\t\t\t작성자\t제목");
+        list.forEach(dto -> {
+            System.out.printf("%2d\t%2d\t%10s\t%10s\t%s\n" , dto.getBno() , dto.getBview() , dto.getBdate() , dto.getMid(),  dto.getBtitle());
+        });
+    }   // search() end
 
     // 5. 게시물 쓰기 함수
     public void bWrite(){
@@ -239,7 +256,6 @@ public class BoardView {                        // BoardView 클래스 정의
 
 
 }   // BoardView class end
-
 
 
 

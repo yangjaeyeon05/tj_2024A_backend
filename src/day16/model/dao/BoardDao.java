@@ -37,7 +37,7 @@ public class BoardDao {     // BoardDao class 정의
         try {   // 예외처리
             // 1. sql 작성
             // String sql = "select * from board";
-            String sql = "select * from board inner join member on board.mno = member.mno";
+            String sql = "select * from board inner join member on board.mno = member.mno order by bno desc";
             // 2. 작성한 sql 기재한다.
             ps = conn.prepareStatement(sql);
             // 3. SQL 실행하고 결과 반환
@@ -208,5 +208,46 @@ public class BoardDao {     // BoardDao class 정의
         }
         return false;
     }   // viewIncrease() end
+
+    // 12. 제목 검색 함수
+    public ArrayList<BoardDto> search(String keyword){
+        // list 출력할 ArrayList 객체 생성
+        ArrayList<BoardDto> list = new ArrayList<>();
+        try{
+            // sql 작성
+            // String sql = "select * from board inner join member on board.mno = member.mno where btitle like '%제%' order by bno desc";           [o]
+            // String sql = "select * from board inner join member on board.mno = member.mno where btitle like '%?%' order by bno desc";           [ x 파라미터가 인식 불가능 ]
+            // String sql = "select * from board inner join member on board.mno = member.mno where btitle like ? order by bno desc";                [ ? -> "%"+keyword+"%"
+            // String sql = "select * from board inner join member on board.mno = member.mno where btitle like '%"+keyword+"%' order by bno desc";  [ 연결연산자 o ]
+            // String sql = "select * from board inner join member on board.mno = member.mno where btitle like %?% order by bno desc";              [ x ]
+            // String sql = "select * from board inner join member on board.mno = member.mno where bview like %3% order by bno desc";               [ x ]
+            String sql = "select * from board inner join member on board.mno = member.mno where btitle like CONCAT( '%' , ? , '%') order by bno desc";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,keyword);
+            // ps.setString(1,"%"+keyword+"%");
+            // ps.setInt(1,3);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                // rs.next() : 다음 레코드 이동 , 존재하면 true , 없으면 false
+                // 레코드 1개당 --> Dto 1개
+                // rs.getString("필드명") : 현재 레코드의 해당 필드명 값호출
+                String btitle = rs.getString("btitle");
+                String bcontent = rs.getString("bcontent");
+                String bdate = rs.getString("bdate");
+                int bview = rs.getInt("bview");
+                int mno = rs.getInt("mno");
+                int bno = rs.getInt("bno");
+                // Dto 만들기
+                BoardDto boardDto = new BoardDto(btitle,bcontent,bdate,bview,mno,bno);
+                boardDto.setMid(rs.getString("mid"));
+                // 리스트에 Dto담기
+                list.add(boardDto);
+                // return list ; // 여기에 return을 쓰게 되면 반복이 되지 않을 채 나가버려 한개의 레코드만 반환하게 된다.
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return list;
+    }   // search() end
 
 }   // BoardDao class end
