@@ -8,4 +8,5 @@ public class AppStart {         // AppStart 클래스 정의
         MemberView.mView.index();   // MemberView클래스 안 mView 객체가 index() 함수를 실행다.
 
     }   // main end
+
 }   // class end
